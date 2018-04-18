@@ -20,7 +20,7 @@
     
       $uid = $userName1Check->fetch_assoc();
       $uid = $uid["id"];
-  		$scores = "SELECT scores.userid, scores.username, scores.score FROM friends INNER JOIN scores ON friends.userID2=scores.userid where friends.userID1=" . $uid . " ORDER BY username ASC;";
+  		$scores = "SELECT users.nickname, MAX(scores.score) AS 'score' FROM ((users INNER JOIN scores on users.id=scores.userid) inner join friends on friends.userID2=scores.userid) where friends.userID1=" . $uid . " GROUP BY users.nickname;";
   		$result = $conn->query($scores);
   		if ($result->num_rows > 0)
   		{
